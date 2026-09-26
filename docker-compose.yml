@@ -54,7 +54,22 @@ services:
     ports:
       - "8060:8060"
 
-# TODO: добавить сервис для payments
+  payment-service:
+    build:
+      context: ./v3/payment-service
+    container_name: payment-service
+    restart: on-failure
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_HOST: postgres
+      DB_PORT: "5432"
+      DB_NAME: payments
+      DB_USER: program
+      DB_PASSWORD: test
+    ports:
+      - "8050:8050"
 
 volumes:
   db-data:
