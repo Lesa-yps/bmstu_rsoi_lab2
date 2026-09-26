@@ -37,7 +37,24 @@ services:
     ports:
       - "8070:8070"
 
-# TODO: добавить сервисы для rentals и payments
+  rental-service:
+    build:
+      context: ./v3/rental-service
+    container_name: rental-service
+    restart: on-failure
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_HOST: postgres
+      DB_PORT: "5432"
+      DB_NAME: rentals
+      DB_USER: program
+      DB_PASSWORD: test
+    ports:
+      - "8060:8060"
+
+# TODO: добавить сервис для payments
 
 volumes:
   db-data:
