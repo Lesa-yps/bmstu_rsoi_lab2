@@ -15,6 +15,9 @@ CREATE TABLE cars
         CHECK (type IN ('SEDAN', 'SUV', 'MINIVAN', 'ROADSTER')),
     availability        BOOLEAN     NOT NULL
 );
+ALTER TABLE cars OWNER TO program;
+GRANT ALL PRIVILEGES ON TABLE cars TO program;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO program;
 
 
 CREATE DATABASE rentals;
@@ -33,6 +36,9 @@ CREATE TABLE rental
     status      VARCHAR(20)              NOT NULL
         CHECK (status IN ('IN_PROGRESS', 'FINISHED', 'CANCELED'))
 );
+ALTER TABLE rental OWNER TO program;
+GRANT ALL PRIVILEGES ON TABLE rental TO program;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO program;
 
 
 CREATE DATABASE payments;
@@ -47,3 +53,6 @@ CREATE TABLE payment
         CHECK (status IN ('PAID', 'CANCELED')),
     price       INT         NOT NULL
 );
+ALTER TABLE payment OWNER TO program;
+GRANT ALL PRIVILEGES ON TABLE payment TO program;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO program;
