@@ -75,12 +75,12 @@ def health() -> dict[str, str]:
 # получение списка всех доступных для бронирования автомобилей
 @app.get("/api/v1/cars")
 def get_cars(
-    page: int = Query(1, ge=1), # номер страницы (начиная с 1) (для пагинации)
+    page: int = Query(0, ge=0), # номер страницы (для пагинации)
     size: int = Query(10, ge=1, le=100), # количество элементов на странице (для пагинации)
     showAll: bool = Query(False), # если передан флаг showAll=true, то выводить автомобили в резерве
 ) -> dict[str, Any]:
     
-    offset = (page - 1) * size
+    offset = page * size
     where_clause = "" if showAll else "WHERE availability = true"
 
     with get_connection() as conn:

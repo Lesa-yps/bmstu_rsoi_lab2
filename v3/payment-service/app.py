@@ -88,6 +88,8 @@ def create_payment(payment_uid: str, price: int) -> dict[str, Any]:
             new_payment = cur.fetchone()
             conn.commit()
 
+    return dict(new_payment)
+
 
 # отмена платежа
 @app.post("/internal/payments/cancel")
@@ -113,6 +115,30 @@ def cancel_payment(payment_uid: str) -> dict[str, Any]:
         raise HTTPException(status_code=404, detail="Payment not found or already canceled")
 
     return dict(updated_payment)
+
+
+# получение информации о платеже по его уникальному идентификатору
+@app.get("/internal/payments/{payment_uid}")
+def get_payment_by_uid(payment_uid: str) -> dict[str, Any]:
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                SELECT
+                    payment_uid AS \"paymentUid\",
+                    status,
+                    price
+                FROM payment
+                WHERE payment_uid = %s;
+                """,
+                (payment_uid,),
+            )
+            item = cur.fetchone()
+
+    if item is None:
+        raise HTTPException(status_code=404, detail="Payment not found")
+
+    return dict(item)
 
 
 # запуск приложения
