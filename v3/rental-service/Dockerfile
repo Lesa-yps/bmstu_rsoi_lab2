@@ -8,4 +8,4 @@ COPY . .
 
 EXPOSE 8060
 
-CMD ["python", "app.py"]
+CMD ["python", "app_rental.py"]

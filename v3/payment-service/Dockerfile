@@ -8,4 +8,4 @@ COPY . .
 
 EXPOSE 8050
 
-CMD ["python", "app.py"]
+CMD ["python", "app_payment.py"]
